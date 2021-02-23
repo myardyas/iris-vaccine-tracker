@@ -1,6 +1,8 @@
 ## iris-vaccine-tracker
 This project has the intention to show COVID-19 vaccination track count around the world. Using as backend InterSystems IRIS in a multi-model schema.
 
+demo at http://vaccine-tracker.demo.community.intersystems.com/vaccine/index.html
+
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
 
