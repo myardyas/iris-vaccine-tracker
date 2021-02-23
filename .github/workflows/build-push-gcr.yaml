@@ -7,16 +7,19 @@ on:
     - main
 
 env:
-  GITHUB_SHA:   ${{ github.sha }}
-  PROJECT_ID:   zpm-package-manager
-  GCR_LOCATION: eu.gcr.io
-  REGION:       europe-west2
-  CLUSTER_NAME: anthos
-  NAMESPACE:    iris
-
+  # Change this section according to your needs
   IMAGE_NAME:   iris-vaccine-tracker
   SERVICE:      vaccine-tracker
   DOMAIN_NAME:  vaccine-tracker.contest.community.intersystems.com
+
+  # Leave this section untouched
+  PROJECT_ID:   hackathon-297608
+  CLUSTER_NAME: contest
+  GITHUB_SHA:   ${{ github.sha }}
+  GCR_LOCATION: eu.gcr.io
+  REGION:       europe-west2
+  NAMESPACE:    contest
+
 jobs:
   deploy-cloud-run:
     name: Deploy to Cloud Run
