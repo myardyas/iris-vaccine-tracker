@@ -16,7 +16,7 @@ env:
 
   IMAGE_NAME:   iris-vaccine-tracker
   SERVICE:      vaccine-tracker
-  DOMAIN_NAME:  covid-19.myardyas.club
+  DOMAIN_NAME:  vaccine-tracker.demo.community.intersystems.com
 jobs:
   deploy-cloud-run:
     name: Deploy to Cloud Run
