@@ -44,8 +44,10 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
+        echo "Set google project..."
         gcloud config set project ${PROJECT_ID}
 
+        echo "Deploy service..."
         gcloud run deploy ${SERVICE}   \
           --platform gke               \
           --cluster ${CLUSTER_NAME}    \
@@ -58,6 +60,7 @@ jobs:
           --verbosity debug            \
           --image ${GCR_LOCATION}/${PROJECT_ID}/${IMAGE_NAME}:${GITHUB_SHA}
 
+        echo "Create domain mappings..."
         if [[ $(gcloud run domain-mappings list --platform gke --cluster ${CLUSTER_NAME} --cluster-location ${REGION} --namespace ${NAMESPACE} --filter "DOMAIN=${DOMAIN_NAME}" | grep -v DOMAIN | wc -l) == 0 ]]; then
           gcloud run domain-mappings create \
             --service ${SERVICE}            \
@@ -65,9 +68,25 @@ jobs:
             --cluster ${CLUSTER_NAME}       \
             --cluster-location ${REGION}    \
             --namespace ${NAMESPACE}        \
+            --timeout 120                   \
             --verbosity debug               \
             --domain ${DOMAIN_NAME}
         fi
+
+    - name: Create domain name
+      run: |
+        gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${REGION} --project ${PROJECT_ID}
+        kubectl version
+        CURRENT_DOMAINS=$(kubectl -n gke-system get svc istio-ingress -o jsonpath="{.metadata.annotations['external-dns\.alpha\.kubernetes\.io/hostname']}")
+        IFS=', ' read -r -a CURRENT_DOMAINS_LIST <<< "${CURRENT_DOMAINS}"
+        for domain in ${CURRENT_DOMAINS_LIST[@]}; do                                      \
+          echo "Checking if ${DOMAIN_NAME} exists in the existing Ingress annotation..."; \
+          if [[ "${domain}" == "${DOMAIN_NAME}" ]]; then                                  \
+            echo "${DOMAIN_NAME} is already set in ingress";                              \
+          else                                                                            \
+            echo "${DOMAIN_NAME} doesn't set in ingress";                                 \
+          fi; \
+        done
 
     - name: Enable TLS-access
       run: |
