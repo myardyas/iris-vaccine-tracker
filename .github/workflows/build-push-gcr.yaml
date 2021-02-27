@@ -8,7 +8,7 @@ on:
 
 env:
   # Change this section according to your needs
-  IMAGE_NAME:   iris-vaccine-tracker
+  IMAGE_NAME:   iris-vaccine-tracker-my
   SERVICE:      vaccine-tracker-my
   DOMAIN_NAME:  vaccine-tracker-my.contest.community.intersystems.com
 
