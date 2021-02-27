@@ -68,7 +68,6 @@ jobs:
             --cluster ${CLUSTER_NAME}       \
             --cluster-location ${REGION}    \
             --namespace ${NAMESPACE}        \
-            --timeout 120                   \
             --verbosity debug               \
             --domain ${DOMAIN_NAME}
         fi
