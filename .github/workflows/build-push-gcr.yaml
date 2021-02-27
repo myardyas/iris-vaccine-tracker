@@ -80,7 +80,9 @@ jobs:
         CURRENT_DOMAINS_LIST=$(kubectl -n gke-system get svc istio-ingress -o jsonpath="{.metadata.annotations['external-dns\.alpha\.kubernetes\.io/hostname']}")
         if [[ $(echo ${CURRENT_DOMAINS_LIST} | grep -w "${DOMAIN_NAME}" | wc -c) -eq 0 ]]; then \
           echo "[INFO] Domain [${DOMAIN_NAME}] is ABSENT in the domains list. Adding...";       \
-          echo "[INFO] ${CURRENT_DOMAINS_LIST},${DOMAIN_NAME}";                                 \
+          kubectl -n gke-system annotate --overwrite svc istio-ingress external-dns\.alpha\.kubernetes\.io/hostname=${CURRENT_DOMAINS_LIST},${DOMAIN_NAME}; \
+          echo -n "[INFO] Resulting domain names: "
+          kubectl -n gke-system get svc istio-ingress -o jsonpath="{.metadata.annotations['external-dns\.alpha\.kubernetes\.io/hostname']}"
         else
           echo "[INFO] Domain [${DOMAIN_NAME}] is in the domains list. Leave untouched...";     \
         fi
