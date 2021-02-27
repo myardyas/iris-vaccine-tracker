@@ -9,8 +9,8 @@ on:
 env:
   # Change this section according to your needs
   IMAGE_NAME:   iris-vaccine-tracker
-  SERVICE:      vaccine-tracker
-  DOMAIN_NAME:  vaccine-tracker.contest.community.intersystems.com
+  SERVICE:      vaccine-tracker-my
+  DOMAIN_NAME:  vaccine-tracker-my.contest.community.intersystems.com
 
   # Leave this section untouched
   PROJECT_ID:   hackathon-297608
